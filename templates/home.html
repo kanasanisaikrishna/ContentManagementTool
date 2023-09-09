@@ -1,0 +1,72 @@
+{% load static %}
+<html>
+    <head>
+        <title>
+            Blog app
+        </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href=" {% static '/css/main.css' %} ">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Blog App</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item ml-5">
+                <a class="nav-link active" aria-current="page" href="{% url 'addblog' %}" >Add Blog</a>
+              </li>
+              <li class="nav-item ml-5">
+                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item ml-5">
+                <a class="nav-link active" aria-current="page" style="color: aliceblue;" >Wellcome</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link active" aria-current="page" style="color: aliceblue;" ><b>{{user.username }}</b> </a>
+              </li>
+              <li class="nav-item ml-5">
+                <a class="nav-link active" aria-current="page" href="{% url 'myblog' %}">My Blogs</a>
+              </li>
+              <li class="nav-item ml-5">
+                <a class="nav-link active" aria-current="page" href="{% url 'signout' %}">Sign Out</a>
+              </li>
+              </ul>
+          </div>
+        </div>
+      </nav>
+        {% block content %} 
+        <div class="container mt-5">
+            
+            <div class="row">
+              {%for b in blogs %}
+                <div class="col-sm-6">
+                    <div class="card" style="width: 25rem;">
+                        <img src="{{b.Image.url}}" class="card-img-top" alt="">
+                        <div class="card-body">
+                        <h5 class="card-title">{{b.title}}</h5>
+                        <h6 class="card-auther">auther:<b>{{b.auther}}</b></h6></h6>
+                        <p class="card-text">{{b.description}}</p>
+                        <form action='{%  url 'like' b.id %}' method=POST>
+                            {% csrf_token %}
+                            <button type='submit' class='btn btn-success'>{{b.likes}} Like</button>
+                        </form>
+                       
+                        <p class="card-text">Published on: {{b.date}}</p>                
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        <br>
+        
+        
+        </div>
+        {% endblock %}
+    </body>
+    <script>
+
+    </script>
